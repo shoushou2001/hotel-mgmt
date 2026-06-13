@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>New Booking - Hotel Management</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
+  <div class="container">
+    <a class="navbar-brand" href="/">HotelMgmt</a>
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="/">Dashboard</a></li>
+        <li class="nav-item"><a class="nav-link" href="/rooms">Rooms</a></li>
+        <li class="nav-item"><a class="nav-link" href="/guests">Guests</a></li>
+        <li class="nav-item"><a class="nav-link active" href="/bookings">Bookings</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container mt-4">
+  <h2><i class="bi bi-calendar-plus"></i> Create New Booking</h2>
+
+  <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <form th:action="@{/bookings/save}" method="post">
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Guest</label>
+            <select name="guestId" class="form-select" required>
+              <option value="">-- Select Guest --</option>
+              <option th:each="g : ${guests}" th:value="${g.id}" th:text="${g.fullName} + ' (' + ${g.email} + ')'"></option>
+            </select>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Room</label>
+            <select name="roomId" class="form-select" required>
+              <option value="">-- Select Room --</option>
+              <option th:each="r : ${rooms}" th:value="${r.id}" th:text="${r.roomNumber} + ' - ' + ${r.type} + ' ($' + ${r.pricePerNight} + '/night)'"></option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Check-In Date</label>
+            <input type="date" name="checkInStr" class="form-control" required>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Check-Out Date</label>
+            <input type="date" name="checkOutStr" class="form-control" required>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Notes</label>
+          <textarea name="notes" class="form-control" rows="2"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Create Booking</button>
+        <a href="/bookings" class="btn btn-secondary">Cancel</a>
+      </form>
+    </div>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
